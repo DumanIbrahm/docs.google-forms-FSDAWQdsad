@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Başlıksız form</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Genel sayfa stili */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0ebf8;
+            color: #202124;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+
+        .card {
+            background: #FFF;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(60, 64, 67, .15), 0 4px 8px rgba(60, 64, 67, .15);
+            margin-bottom: 20px;
+            position: relative;
+            padding: 24px;
+        }
+
+        /* Başlık kartı: mor çubuk eklemek için pseudo-öğe */
+        .header-card {
+            padding-top: 24px;
+        }
+
+        .header-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: #673AB7;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .header-card h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .title-divider {
+            border: none;
+            border-top: 1px solid #DADCE0;
+            margin: 0 0 16px;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .account {
+            font-size: 14px;
+            color: #202124;
+        }
+
+        .account .email {
+            font-weight: 500;
+        }
+
+        .account a {
+            margin-left: 8px;
+            color: #1A73E8;
+            text-decoration: none;
+            font-weight: 400;
+        }
+
+        .upload {
+            font-size: 20px;
+            color: #5F6368;
+        }
+
+        .share-info {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #5F6368;
+        }
+
+        .share-info i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        /* Soru kartı */
+        .question-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .option input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Butonlar */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0;
+        }
+
+
+        .btn,
+        .again-btn {
+            background-color: #673AB7;
+            border: none;
+            border-radius: 4px;
+            color: #FFF;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #673AB7;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        #confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #FFF;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            margin: 0 0 16px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .modal-content p {
+            margin: 0 0 24px;
+            font-size: 16px;
+            color: #202124;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+        }
+
+        .cancel-btn {
+            background: none;
+            border: none;
+            font-size: 14px;
+            color: #5F6368;
+            cursor: pointer;
+        }
+
+        .modal-actions .btn {
+            padding: 6px 16px;
+        }
+
+        /* Footer */
+        .footer-text {
+            font-size: 12px;
+            color: #5F6368;
+            text-align: center;
+            margin: 12px 24px;
+            line-height: 1.4;
+        }
+
+        .footer-links a {
+            color: #5F6368;
+            text-decoration: none;
+            margin: 0 4px;
+        }
+
+        .brand {
+            text-align: center;
+            font-size: 18px;
+            color: #70757A;
+            margin-top: 8px;
+            font-family: 'Product Sans', sans-serif;
+        }
+
+        /* Başarılı yanıt ekranı */
+        #success-screen .card {
+            padding: 24px;
+        }
+
+        #success-screen .header-card {
+            padding: 24px;
+        }
+
+        #success-screen h2 {
+            margin: 0 0 16px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        #success-screen p {
+            margin: 0 0 16px;
+            font-size: 16px;
+            color: #202124;
+        }
+
+        #success-screen .again-btn {
+            margin-top: 0;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Form ekranı -->
+        <div id="form-screen">
+            <div class="card header-card">
+                <h1>Başlıksız form</h1>
+                <hr class="title-divider">
+                <div class="header-info">
+                    <div class="account">
+                        <!-- <span class="email">anonymous@gmail.com</span>
+                        <a href="#">Hesap değiştir</a>  -->
+                    </div>
+                    <i class="material-icons upload">cloud_upload</i>
+                </div>
+                <div class="share-info">
+                    <i class="material-icons">mail_outline</i>
+                    <span>Paylaşılmıyor</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="question-title">Başlıksız Soru</div>
+                <label class="option">
+                    <input type="radio" name="q1">
+                    <span>1. Seçenek</span>
+                </label>
+            </div>
+            <div class="buttons">
+                <button id="submit-btn" class="btn">Gönder</button>
+                <button id="clear-btn" class="clear-btn">Formu temizle</button>
+            </div>
+        </div>
+        <!-- Başarılı yanıt ekranı -->
+        <div id="success-screen" style="display:none;">
+            <div class="card header-card">
+                <h1>Başlıksız form</h1>
+            </div>
+            <div class="card">
+                <h2>Yanıtınız kaydedildi.</h2>
+                <a href="#" id="again-btn" class="again-btn">Başka bir yanıt gönder</a>
+            </div>
+        </div>
+        <!-- Confirm Modal -->
+        <div id="confirm-modal">
+            <div class="modal-content">
+                <h2>Form temizlensin mi?</h2>
+                <p>Bu işlemler tüm sorulardaki cevaplarınızı kaldıracak. İşlem geri alınamaz.</p>
+                <div class="modal-actions">
+                    <button id="cancel-clear" class="cancel-btn">İptal</button>
+                    <button id="confirm-clear" class="cancel-btn">Formu temizle</button>
+                </div>
+            </div>
+        </div>
+        <!-- Ortak altbilgi -->
+        <div class="footer-text">
+            Bu içerik Google tarafından oluşturulmamış veya onaylanmamıştır. - <span class="footer-links"><a
+                    href="#">Hizmet Şartları</a> - <a href="#">Gizlilik Politikası</a></span><br>
+            Bu form şüpheli mi görünüyor? <a href="#">Rapor</a>
+        </div>
+        <div class="brand">Google Formlar</div>
+    </div>
+    <script>
+        // Gönder işlevi
+        document.getElementById('submit-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('form-screen').style.display = 'none';
+            document.getElementById('success-screen').style.display = 'block';
+        });
+        // Tekrar gönder
+        document.getElementById('again-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelectorAll('input[name="q1"]').forEach(i => i.checked = false);
+            document.getElementById('success-screen').style.display = 'none';
+            document.getElementById('form-screen').style.display = 'block';
+        });
+        // Formu temizle: onay modalı
+        document.getElementById('clear-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('confirm-modal').style.display = 'flex';
+        });
+        // Modal iptal
+        document.getElementById('cancel-clear').addEventListener('click', function () {
+            document.getElementById('confirm-modal').style.display = 'none';
+        });
+        // Modal onay: temizle
+        document.getElementById('confirm-clear').addEventListener('click', function () {
+            document.querySelectorAll('input[name="q1"]').forEach(i => i.checked = false);
+            document.getElementById('confirm-modal').style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>
