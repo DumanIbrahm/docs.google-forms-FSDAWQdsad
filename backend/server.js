@@ -3,12 +3,12 @@ const multer = require("multer");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const { Pool } = require("pg");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const pool = require("./db");
-
-
+require('dotenv').config();
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
 // CORS ve JSON parser
 app.use(cors());
 app.use(express.json());
@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
 
 // POST /submit
-aapp.post("/submit", upload.single("cv"), async (req, res) => {
+app.post("/submit", upload.single("cv"), async (req, res) => {
     const { fullname, studentId, grade, department, phone } = req.body;
     const cvFilename = req.file ? req.file.filename : null;
 
@@ -60,22 +60,13 @@ aapp.post("/submit", upload.single("cv"), async (req, res) => {
 
 
 // GET /submissions
-app.get("/submissions", (req, res) => {
-    const filePath = path.join(__dirname, "form-data.json");
-
+app.get("/submissions", async (req, res) => {
     try {
-        if (!fs.existsSync(filePath)) {
-            return res.status(200).json([]);
-        }
-
-        const rawData = fs.readFileSync(filePath, "utf-8");
-        const lines = rawData.trim().split("\n").filter(Boolean);
-        const jsonData = lines.map(line => JSON.parse(line));
-
-        res.status(200).json(jsonData);
+        const result = await pool.query("SELECT * FROM submissions ORDER BY submitted_at DESC");
+        res.status(200).json(result.rows);
     } catch (err) {
-        console.error("Veri okunamadı:", err);
-        res.status(500).json({ message: "Veri okunamadı." });
+        console.error("Veritabanı okuma hatası:", err);
+        res.status(500).json({ message: "Veri alınamadı." });
     }
 });
 
