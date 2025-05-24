@@ -2,12 +2,11 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bölüm Staj Başvurusu</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
         body {
             margin: 0;
@@ -32,7 +31,6 @@
             padding: 24px;
         }
 
-        /* Header card with purple bar */
         .header-card {
             padding-top: 24px;
         }
@@ -79,7 +77,6 @@
             box-sizing: border-box;
         }
 
-        /* Select boxes remain styled with full border */
         .form-group select,
         .form-group input[type="file"] {
             width: 100%;
@@ -90,7 +87,6 @@
             box-sizing: border-box;
         }
 
-        /* Add this near the top of your <style> block */
         .form-group label::after {
             content: ' *';
             color: #D93025;
@@ -129,7 +125,6 @@
             cursor: pointer;
         }
 
-        /* Modal */
         #confirm-modal {
             display: none;
             position: fixed;
@@ -178,10 +173,6 @@
             cursor: pointer;
         }
 
-        .modal-actions .btn {
-            padding: 6px 16px;
-        }
-
         .footer-text {
             font-size: 12px;
             color: #5F6368;
@@ -219,42 +210,31 @@
 
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="card header-card">
             <h1>Bölüm Staj Başvurusu</h1>
-            <hr class="title-divider">
-            <div class="header-info">
-                <div class="account">
-                    <!--
-                     <span class="email">anonymous@gmail.com</span>
-                    <a href="#">Hesap değiştir</a>
-                <i class="material-icons upload">cloud_upload</i>
-
-                    -->
-                </div>
-            </div>
+            <hr class="title-divider" />
             <p style="font-size:14px; color:#5F6368; margin-top:12px;">
-                Dosyaları yükleyip bu formu gönderdiğinizde Google hesabınızla ilişkilendirilen ad, e-posta adresi ve
-                fotoğraf kaydedilir
+                Bu formu gönderdiğinizde bilgileriniz kaydedilecektir.
             </p>
-            <hr>
+            <hr />
             <p style="font-size:14px; color:#D93025; margin-top:8px;">
-                * Zorunlu soruyu belirtir
+                * Zorunlu alan
             </p>
         </div>
-        <!-- Sorular -->
-        <form id="main-form">
+
+        <!-- Form -->
+        <form id="main-form" enctype="multipart/form-data">
             <div class="card form-group">
                 <label for="fullname">Ad Soyad</label>
-                <input type="text" id="fullname" name="fullname" placeholder="Yanıtınız">
+                <input type="text" id="fullname" name="fullname" required />
             </div>
             <div class="card form-group">
                 <label for="studentId">Öğrenci Numarası</label>
-                <input type="text" id="studentId" name="studentId" placeholder="Yanıtınız">
+                <input type="text" id="studentId" name="studentId" required />
             </div>
             <div class="card form-group">
                 <label for="grade">Sınıf</label>
-                <select id="grade" name="grade">
+                <select id="grade" name="grade" required>
                     <option value="">Seçiniz</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -264,80 +244,95 @@
             </div>
             <div class="card form-group">
                 <label for="department">Bölüm</label>
-                <input type="text" id="department" name="department" placeholder="Yanıtınız">
+                <input type="text" id="department" name="department" required />
             </div>
             <div class="card form-group">
                 <label for="phone">Telefon Numarası</label>
-                <input type="tel" id="phone" name="phone" placeholder="Yanıtınız">
+                <input type="tel" id="phone" name="phone" required />
             </div>
-            <form id="main-form">
-                <div class="card form-group">
-                    <label for="cv">CV</label>
-                    <p class="file-help">Desteklenen 1 dosya yükleyebilirsiniz. En fazla 10 MB olmalıdır.</p>
+            <div class="card form-group">
+                <label for="cv">CV</label>
+                <p class="file-help">Yalnızca .pdf/.doc/.docx dosyaları. Max 10MB.</p>
+                <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required />
+            </div>
 
-                    <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" class="upload-input">
-                    <span id="cv-filename" style="margin-left:12px; font-size:14px; color:#202124;"></span>
-                    <span id="cv-filename" style="margin-left:12px; font-size:14px; color:#202124;"></span>
-                </div>
-                <!-- Butonlar -->
-                <div class="buttons">
-                    <button type="submit" id="submit-btn" class="btn">Gönder</button>
-                    <button type="button" id="clear-btn" class="clear-btn">Formu temizle</button>
-                </div>
-            </form>
-            <!-- Success -->
-            <div id="success-screen" style="display:none;">
-                <div class="card">
-                    <h2>Yanıtınız kaydedildi.</h2>
-                    <button id="again-btn" class="btn">Başka bir yanıt gönder</button>
+            <div class="buttons">
+                <button type="submit" class="btn">Gönder</button>
+                <button type="button" id="clear-btn" class="clear-btn">Formu temizle</button>
+            </div>
+        </form>
+
+        <div id="success-screen" style="display:none;">
+            <div class="card">
+                <h2>Yanıtınız kaydedildi.</h2>
+                <button id="again-btn" class="btn">Başka bir yanıt gönder</button>
+            </div>
+        </div>
+
+        <div id="confirm-modal">
+            <div class="modal-content">
+                <h2>Form temizlensin mi?</h2>
+                <p>Bu işlem tüm bilgileri silecektir.</p>
+                <div class="modal-actions">
+                    <button id="cancel-clear" class="cancel-btn">İptal</button>
+                    <button id="confirm-clear" class="cancel-btn">Formu temizle</button>
                 </div>
             </div>
-            <!-- Confirm Modal -->
-            <div id="confirm-modal">
-                <div class="modal-content">
-                    <h2>Form temizlensin mi?</h2>
-                    <p>Bu işlemle tüm sorulardaki cevaplarınız kaldırılacak. İşlem geri alınamaz.</p>
-                    <div class="modal-actions">
-                        <button id="cancel-clear" class="cancel-btn">İptal</button>
-                        <button id="confirm-clear" class="cancel-btn">Formu temizle</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer -->
-            <div class="footer-text">
-                Google Formlar üzerinden asla şifre göndermeyin.<br>
-                Bu içerik Google tarafından oluşturulmamış veya onaylanmamıştır. - <span class="footer-links"><a
-                        href="https://policies.google.com/terms"><u>Hizmet Şartları</u></a> - <a
-                        href="https://policies.google.com/privacy"><u>Gizlilik
-                            Politikası</u></a></span><br>
-                Bu form şüpheli mi görünüyor? <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSdrwmTnEavTUfgFIxxyLUL7ca4440sMd7Em5U6AJ6rm_nucSw/reportabuse"><u>Rapor</u></a>
-            </div>
-            <div class="brand">Google Formlar</div>
+        </div>
+
+        <div class="footer-text">
+            Bu form Google tarafından sağlanmamaktadır. <br />
+            <span class="footer-links">
+                <a href="https://policies.google.com/terms">Hizmet Şartları</a> -
+                <a href="https://policies.google.com/privacy">Gizlilik Politikası</a>
+            </span>
+        </div>
+        <div class="brand">Staj Başvuru Sistemi</div>
     </div>
+
     <script>
-        // Gönder
-        document.getElementById('main-form').addEventListener('submit', function (e) {
+        document.getElementById("main-form").addEventListener("submit", async function (e) {
             e.preventDefault();
-            document.getElementById('main-form').style.display = 'none';
-            document.getElementById('success-screen').style.display = 'block';
+
+            const form = document.getElementById("main-form");
+            const formData = new FormData(form);
+
+            try {
+                const res = await fetch("https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/submit", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (res.ok) {
+                    document.getElementById("main-form").style.display = "none";
+                    document.getElementById("success-screen").style.display = "block";
+                } else {
+                    const err = await res.json();
+                    alert("Hata: " + err.message);
+                }
+            } catch (error) {
+                alert("Sunucuya bağlanılamadı.");
+                console.error(error);
+            }
         });
-        // Tekrar gönder
-        document.getElementById('again-btn').addEventListener('click', function () {
-            document.querySelectorAll('input, select').forEach(el => el.value = '');
-            document.getElementById('success-screen').style.display = 'none';
-            document.getElementById('main-form').style.display = 'block';
+
+        document.getElementById("again-btn").addEventListener("click", function () {
+            document.querySelectorAll("input, select").forEach((el) => (el.value = ""));
+            document.getElementById("success-screen").style.display = "none";
+            document.getElementById("main-form").style.display = "block";
         });
-        // Temizle onayı
-        document.getElementById('clear-btn').addEventListener('click', function () {
-            document.getElementById('confirm-modal').style.display = 'flex';
+
+        document.getElementById("clear-btn").addEventListener("click", function () {
+            document.getElementById("confirm-modal").style.display = "flex";
         });
-        document.getElementById('cancel-clear').addEventListener('click', function () {
-            document.getElementById('confirm-modal').style.display = 'none';
+
+        document.getElementById("cancel-clear").addEventListener("click", function () {
+            document.getElementById("confirm-modal").style.display = "none";
         });
-        document.getElementById('confirm-clear').addEventListener('click', function () {
-            document.querySelectorAll('input, select').forEach(el => el.value = '');
-            document.getElementById('confirm-modal').style.display = 'none';
+
+        document.getElementById("confirm-clear").addEventListener("click", function () {
+            document.querySelectorAll("input, select").forEach((el) => (el.value = ""));
+            document.getElementById("confirm-modal").style.display = "none";
         });
     </script>
 </body>
