@@ -36,28 +36,27 @@ const storage = multer.diskStorage({
 const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
 
 // POST /submit
-app.post("/submit", upload.single("cv"), async (req, res) => {
+aapp.post("/submit", upload.single("cv"), async (req, res) => {
     const { fullname, studentId, grade, department, phone } = req.body;
+    const cvFilename = req.file ? req.file.filename : null;
 
     if (!fullname || !studentId || !grade || !department || !phone) {
         return res.status(400).json({ message: "Tüm alanlar zorunludur." });
     }
 
-    const cvFilename = req.file?.filename || null;
-
     try {
         await pool.query(
-            `INSERT INTO submissions (fullname, student_id, grade, department, phone, cv_filename)
-             VALUES ($1, $2, $3, $4, $5, $6)`,
+            `INSERT INTO submissions (fullname, student_id, grade, department, phone, cv_filename, submitted_at) 
+             VALUES ($1, $2, $3, $4, $5, $6, NOW())`,
             [fullname, studentId, grade, department, phone, cvFilename]
         );
-
-        res.status(200).json({ message: "Veri başarıyla kaydedildi." });
-    } catch (error) {
-        console.error("DB hata:", error);
-        res.status(500).json({ message: "Veritabanı hatası." });
+        res.status(200).json({ message: "Başvuru başarıyla kaydedildi." });
+    } catch (err) {
+        console.error("Veritabanı hatası:", err);
+        res.status(500).json({ message: "Sunucu hatası." });
     }
 });
+
 
 
 // GET /submissions
