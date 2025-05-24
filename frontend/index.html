@@ -306,17 +306,7 @@
                 });
 
                 if (res.ok) {
-                    const data = await res.json();
-
-                    // ✅  Yüklenen dosya bağlantısını oluştur
-                    const fileUrl = `https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/uploads/${encodeURIComponent(data.filename)}`;
-
-                    document.getElementById("cv-link-container").innerHTML = `
-                <a href="${fileUrl}" target="_blank" style="color:#673AB7; font-weight:500;">
-                    Yüklediğiniz CV Dosyasını Görüntüle
-                </a>
-            `;
-
+                    // Başarı mesajını göster, formu gizle
                     document.getElementById("main-form").style.display = "none";
                     document.getElementById("success-screen").style.display = "block";
                 } else {
@@ -329,13 +319,11 @@
             }
         });
 
-
         document.getElementById("again-btn").addEventListener("click", function () {
             document.querySelectorAll("input, select").forEach((el) => (el.value = ""));
             document.getElementById("success-screen").style.display = "none";
             document.getElementById("main-form").style.display = "block";
         });
-
 
         document.getElementById("clear-btn").addEventListener("click", function () {
             document.getElementById("confirm-modal").style.display = "flex";
@@ -350,6 +338,7 @@
             document.getElementById("confirm-modal").style.display = "none";
         });
     </script>
+
 </body>
 
 </html>

@@ -37,22 +37,25 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Ana endpoint
 app.post('/submit', upload.single('cv'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: 'Dosya yüklenemedi' });
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Dosya yüklenemedi' });
+        }
+
+        const { fullname, studentId, grade, department, phone } = req.body;
+
+        console.log('Form verisi:', { fullname, studentId, grade, department, phone });
+
+        res.status(200).json({
+            message: 'Başarılı',
+            filename: req.file.filename
+        });
+    } catch (error) {
+        console.error("Yükleme sırasında hata:", error.message);
+        res.status(500).json({ message: 'Sunucu hatası: ' + error.message });
     }
-
-    // İsteğe bağlı: diğer form verilerini al
-    const { fullname, studentId, grade, department, phone } = req.body;
-
-    // DB işlemi burada yapılabilir
-    console.log('Form verisi:', { fullname, studentId, grade, department, phone });
-
-    // Geriye dosya ismini dön
-    res.status(200).json({
-        message: 'Başarılı',
-        filename: req.file.filename
-    });
 });
+
 
 // Sunucuyu başlat
 const PORT = process.env.PORT || 3000;
