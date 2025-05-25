@@ -15,7 +15,14 @@ const storage = new CloudinaryStorage({
     params: {
         folder: 'cv_uploads',
         resource_type: 'raw',
-        allowed_formats: ['pdf', 'doc', 'docx'],
+        allowed_formats: [
+            'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
+            'txt', 'rtf', 'odt', 'ods', 'odp',
+            'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff',
+            'zip', 'rar', '7z',
+            'csv', 'tsv', 'json', 'xml',
+            'mp4', 'mov', 'avi', 'mkv',
+        ]
     },
 });
 
