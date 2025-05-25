@@ -4,51 +4,55 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Giriş – InfoSec Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Bilgi Güvenliği Giriş Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background: url('https://images.unsplash.com/photo-1606149058595-09b445f50e8d?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background-size: cover;
         }
 
-        .login-container {
-            background-color: rgba(0, 0, 0, 0.85);
-            color: #fff;
-            padding: 40px 30px;
-            border-radius: 12px;
+        .login-box {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 40px 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            color: #fff;
             text-align: center;
         }
 
-        .login-container img {
-            width: 80px;
-            margin-bottom: 20px;
+        .login-box img {
+            width: 70px;
+            margin-bottom: 16px;
         }
 
-        .login-container h2 {
+        .login-box h2 {
             margin-bottom: 24px;
             font-weight: 500;
+            font-size: 22px;
         }
 
         .form-group {
-            margin-bottom: 20px;
             text-align: left;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             font-size: 14px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             display: block;
+            color: #ccc;
         }
 
         .form-group input {
@@ -57,18 +61,25 @@
             border: none;
             border-radius: 6px;
             font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #bbb;
         }
 
         .btn {
             width: 100%;
             padding: 14px;
             background-color: #00c853;
-            color: #fff;
+            color: white;
             font-size: 15px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            margin-top: 10px;
+            transition: background-color 0.3s;
         }
 
         .btn:hover {
@@ -78,29 +89,36 @@
         .error-msg {
             color: #ff8a80;
             font-size: 13px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .footer-note {
-            margin-top: 24px;
+            margin-top: 20px;
             font-size: 12px;
-            color: #ccc;
+            color: #bbb;
+        }
+
+        @media (max-width: 500px) {
+            .login-box {
+                margin: 0 16px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="login-container">
-        <img src="https://i.imgur.com/EkZpYcG.png" alt="InfoSec Logo" />
+
+    <div class="login-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Security Logo" />
         <h2>Bilgi Güvenliği Giriş Paneli</h2>
         <form id="login-form">
             <div class="form-group">
                 <label for="email">E-posta</label>
-                <input type="email" id="email" required />
+                <input type="email" id="email" placeholder="admin@phishing.com" required />
             </div>
             <div class="form-group">
                 <label for="password">Şifre</label>
-                <input type="password" id="password" required />
+                <input type="password" id="password" placeholder="********" required />
             </div>
             <button class="btn" type="submit">Giriş Yap</button>
             <div class="error-msg" id="error-msg"></div>
@@ -132,6 +150,7 @@
             }
         });
     </script>
+
 </body>
 
 </html>

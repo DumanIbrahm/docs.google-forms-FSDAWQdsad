@@ -4,70 +4,129 @@
 <head>
     <meta charset="UTF-8">
     <title>Başvuru Listesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f3f3f3;
-            padding: 40px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            margin-bottom: 24px;
+            color: #fff;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: #fff;
+            overflow-x: auto;
         }
 
         th,
         td {
-            padding: 12px;
-            border: 1px solid #ccc;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: left;
+            font-size: 14px;
+            color: #eee;
         }
 
         th {
-            background: #673AB7;
+            background-color: rgba(103, 58, 183, 0.8);
             color: white;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: rgba(255, 255, 255, 0.03);
         }
 
         .download-btn {
+            background-color: #00c853;
             color: white;
-            background: #4CAF50;
-            padding: 6px 10px;
+            padding: 6px 12px;
+            font-size: 13px;
+            border: none;
+            border-radius: 6px;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: #00b248;
+        }
+
+        @media (max-width: 768px) {
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            th {
+                display: none;
+            }
+
+            td {
+                margin-bottom: 10px;
+                border: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                display: block;
+                color: #aaa;
+                margin-bottom: 4px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Başvuru Listesi</h1>
-    <table id="applications-table">
-        <thead>
-            <tr>
-                <th>Ad Soyad</th>
-                <th>Öğrenci No</th>
-                <th>Sınıf</th>
-                <th>Bölüm</th>
-                <th>Telefon</th>
-                <th>Tarih</th>
-                <th>CV</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Dinamik içerik buraya gelecek -->
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>Başvuru Listesi</h1>
+        <table id="applications-table">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>Öğrenci No</th>
+                    <th>Sınıf</th>
+                    <th>Bölüm</th>
+                    <th>Telefon</th>
+                    <th>Tarih</th>
+                    <th>CV</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dinamik içerik buraya eklenecek -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
         const token = localStorage.getItem("token");
@@ -77,39 +136,32 @@
 
         const API_URL = "https://docsgoogle-forms-fsdawqdsad-production.up.railway.app";
 
-        fetch(`${API_URL}/applications`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
+        fetch(`${API_URL}/applications`)
             .then(res => res.json())
             .then(data => {
-                if (!Array.isArray(data)) {
-                    throw new Error("Veri yapısı beklenildiği gibi değil");
-                }
+                if (!Array.isArray(data)) throw new Error("Beklenmeyen veri");
 
                 const tbody = document.querySelector("#applications-table tbody");
+
                 data.forEach(app => {
                     const row = document.createElement("tr");
 
                     row.innerHTML = `
-                <td>${app.fullname}</td>
-                <td>${app.student_id}</td>
-                <td>${app.grade}</td>
-                <td>${app.department}</td>
-                <td>${app.phone}</td>
-                <td>${new Date(app.submitted_at).toLocaleString()}</td>
-                <td>
-                    ${app.cv_filename
-                            ? `<a class="download-btn" href="${app.cv_filename}" download>İndir</a>`
-                            : 'Yok'}
-                </td>
-            `;
+            <td data-label="Ad Soyad">${app.fullname}</td>
+            <td data-label="Öğrenci No">${app.student_id}</td>
+            <td data-label="Sınıf">${app.grade}</td>
+            <td data-label="Bölüm">${app.department}</td>
+            <td data-label="Telefon">${app.phone}</td>
+            <td data-label="Tarih">${new Date(app.submitted_at).toLocaleString('tr-TR')}</td>
+            <td data-label="CV">
+              ${app.cv_filename ? `<a class="download-btn" href="${app.cv_filename}" target="_blank">İndir</a>` : 'Yok'}
+            </td>
+          `;
                     tbody.appendChild(row);
                 });
             })
             .catch(err => {
-                alert("Veriler alınamadı veya beklenen formatta değil.");
+                alert("Veriler alınamadı.");
                 console.error(err);
             });
     </script>
