@@ -42,7 +42,7 @@ app.post('/submit', upload.single('cv'), async (req, res) => {
         const createdAt = new Date();
 
         const query = `
-            INSERT INTO submissions (fullname, student_id, grade, department, phone, cv_filename, created_at)
+            INSERT INTO submissions (fullname, student_id, grade, department, phone, cv_filename, submitted_at)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
         `;
         const values = [fullname, studentId, grade, department, phone, filename, createdAt];
