@@ -42,7 +42,22 @@ app.get('/applications', async (req, res) => {
         res.status(500).json({ message: 'Veriler okunamadı: ' + err.message });
     }
 });
+const jwt = require('jsonwebtoken');
+app.use(express.json()); // ✅ JSON body'leri okuyabilmek için
 
+const ADMIN_EMAIL = "admin@phishing.com";
+const ADMIN_PASSWORD = "Pasw0rd!";
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        const token = jwt.sign({ email }, process.env.JWT_SECRET || "supersecret", { expiresIn: '2h' });
+        return res.json({ token });
+    }
+
+    return res.status(401).json({ message: "Geçersiz kullanıcı adı veya şifre." });
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);

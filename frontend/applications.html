@@ -70,9 +70,18 @@
     </table>
 
     <script>
-        const API_URL = "https://docsgoogle-forms-fsdawqdsad-production.up.railway.app"; // kendi URL'in
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "/login.html";
+        }
 
-        fetch(`${API_URL}/applications`)
+        const API_URL = "https://docsgoogle-forms-fsdawqdsad-production.up.railway.app";
+
+        fetch(`${API_URL}/applications`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 if (!Array.isArray(data)) {
@@ -91,9 +100,10 @@
                 <td>${app.phone}</td>
                 <td>${new Date(app.submitted_at).toLocaleString()}</td>
                 <td>
-  ${app.cv_filename ? `<a class="download-btn" href="${app.cv_filename}" download>İndir</a>` : 'Yok'}
-</td>
-
+                    ${app.cv_filename
+                            ? `<a class="download-btn" href="${app.cv_filename}" download>İndir</a>`
+                            : 'Yok'}
+                </td>
             `;
                     tbody.appendChild(row);
                 });
@@ -102,7 +112,6 @@
                 alert("Veriler alınamadı veya beklenen formatta değil.");
                 console.error(err);
             });
-
     </script>
 
 </body>
