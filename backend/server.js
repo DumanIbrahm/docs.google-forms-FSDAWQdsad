@@ -17,7 +17,7 @@ app.post('/submit', upload.single('cv'), async (req, res) => {
         const createdAt = new Date();
 
         const query = `
-            INSERT INTO submissions (fullname, student_id, grade, department, phone, cv_filename, submission_at)
+            INSERT INTO submissions (fullname, student_id, grade, department, phone, cv_filename, submitted_at)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
         `;
         const values = [fullname, studentId, grade, department, phone, fileUrl, createdAt];
@@ -33,7 +33,7 @@ app.post('/submit', upload.single('cv'), async (req, res) => {
 
 app.get('/applications', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM submissions ORDER BY submission_at DESC');
+        const result = await pool.query('SELECT * FROM submissions ORDER BY submitted_at DESC');
         res.status(200).json(result.rows);
     } catch (err) {
         res.status(500).json({ message: 'Veriler okunamadı: ' + err.message });
