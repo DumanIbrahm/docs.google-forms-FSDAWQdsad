@@ -75,6 +75,10 @@
         fetch(`${API_URL}/applications`)
             .then(res => res.json())
             .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("Veri yapısı beklenildiği gibi değil");
+                }
+
                 const tbody = document.querySelector("#applications-table tbody");
                 data.forEach(app => {
                     const row = document.createElement("tr");
@@ -92,9 +96,10 @@
                 });
             })
             .catch(err => {
-                alert("Veriler alınamadı.");
+                alert("Veriler alınamadı veya beklenen formatta değil.");
                 console.error(err);
             });
+
     </script>
 
 </body>
