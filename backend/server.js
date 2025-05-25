@@ -61,7 +61,7 @@ app.post('/submit', upload.single('cv'), async (req, res) => {
 
 app.get('/applications', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM submissions ORDER BY created_at DESC');
+        const result = await pool.query('SELECT * FROM submissions ORDER BY submitted_at DESC');
         res.status(200).json(result.rows); // ✅ sadece array dönmeli
     } catch (err) {
         res.status(500).json({ message: 'Veriler okunamadı: ' + err.message });
