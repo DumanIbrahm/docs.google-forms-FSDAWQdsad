@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Başvuru Listesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background: #673AB7;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .download-btn {
+            color: white;
+            background: #4CAF50;
+            padding: 6px 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Başvuru Listesi</h1>
+    <table id="applications-table">
+        <thead>
+            <tr>
+                <th>Ad Soyad</th>
+                <th>Öğrenci No</th>
+                <th>Sınıf</th>
+                <th>Bölüm</th>
+                <th>Telefon</th>
+                <th>Tarih</th>
+                <th>CV</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dinamik içerik buraya gelecek -->
+        </tbody>
+    </table>
+
+    <script>
+        const API_URL = "https://docsgoogle-forms-fsdawqdsad-production.up.railway.app"; // kendi URL'in
+
+        fetch(`${API_URL}/applications`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector("#applications-table tbody");
+                data.forEach(app => {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                <td>${app.fullname}</td>
+                <td>${app.student_id}</td>
+                <td>${app.grade}</td>
+                <td>${app.department}</td>
+                <td>${app.phone}</td>
+                <td>${new Date(app.created_at).toLocaleString()}</td>
+                <td><a class="download-btn" href="${API_URL}/uploads/${app.cv_filename}" download>İndir</a></td>
+            `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(err => {
+                alert("Veriler alınamadı.");
+                console.error(err);
+            });
+    </script>
+
+</body>
+
+</html>
