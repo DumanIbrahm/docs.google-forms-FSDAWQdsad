@@ -46,7 +46,7 @@ const jwt = require('jsonwebtoken');
 app.use(express.json()); // ✅ JSON body'leri okuyabilmek için
 
 const ADMIN_EMAIL = "admin@phishing.com";
-const ADMIN_PASSWORD = "Pasw0rd!";
+const ADMIN_PASSWORD = "Passw0rd!";
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;

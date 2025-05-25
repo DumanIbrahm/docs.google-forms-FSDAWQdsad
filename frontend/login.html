@@ -2,81 +2,97 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Giriş</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Giriş – InfoSec Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'Roboto', sans-serif;
-            background-color: #f1f3f4;
+            background: url('https://images.unsplash.com/photo-1606149058595-09b445f50e8d?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
         }
 
-        .login-box {
-            background: white;
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #fff;
             padding: 40px 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
             width: 100%;
             max-width: 400px;
-        }
-
-        .login-box h2 {
-            margin-bottom: 20px;
-            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             text-align: center;
         }
 
+        .login-container img {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            text-align: left;
         }
 
         .form-group label {
-            display: block;
-            margin-bottom: 6px;
             font-size: 14px;
-            color: #333;
+            margin-bottom: 4px;
+            display: block;
         }
 
         .form-group input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
             font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
 
         .btn {
             width: 100%;
-            padding: 12px;
-            background-color: #673AB7;
-            color: white;
+            padding: 14px;
+            background-color: #00c853;
+            color: #fff;
             font-size: 15px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         .btn:hover {
-            background-color: #512B9B;
+            background-color: #00b248;
         }
 
         .error-msg {
-            color: red;
+            color: #ff8a80;
             font-size: 13px;
-            text-align: center;
             margin-top: 10px;
+        }
+
+        .footer-note {
+            margin-top: 24px;
+            font-size: 12px;
+            color: #ccc;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="login-box">
-        <h2>Yönetici Girişi</h2>
+    <div class="login-container">
+        <img src="https://i.imgur.com/EkZpYcG.png" alt="InfoSec Logo" />
+        <h2>Bilgi Güvenliği Giriş Paneli</h2>
         <form id="login-form">
             <div class="form-group">
                 <label for="email">E-posta</label>
@@ -89,6 +105,7 @@
             <button class="btn" type="submit">Giriş Yap</button>
             <div class="error-msg" id="error-msg"></div>
         </form>
+        <div class="footer-note">Sadece yetkili personel giriş yapabilir.</div>
     </div>
 
     <script>
@@ -115,7 +132,6 @@
             }
         });
     </script>
-
 </body>
 
 </html>
