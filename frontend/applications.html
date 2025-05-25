@@ -3,115 +3,92 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Başvuru Listesi</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
             font-family: 'Rubik', sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
-            min-height: 100vh;
+            background: url('https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/background-locks.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
             padding-top: 60px;
         }
 
         .container {
-            width: 95%;
-            max-width: 1100px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 16px;
-            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 1000px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            width: 60px;
+            display: block;
+            margin: 0 auto 10px;
         }
 
         h1 {
             text-align: center;
+            color: #fff;
             margin-bottom: 24px;
             font-weight: 500;
-            color: #fff;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 14px;
         }
 
         th,
         td {
-            padding: 14px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: left;
-            font-size: 14px;
-            color: #eee;
         }
 
         th {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background-color: #6a1b9a;
+            color: white;
         }
 
         tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.025);
+            background-color: rgba(255, 255, 255, 0.02);
         }
 
         .download-btn {
             background-color: #00c853;
             color: white;
-            padding: 6px 14px;
-            font-size: 13px;
-            border: none;
-            border-radius: 6px;
+            padding: 6px 10px;
+            border-radius: 4px;
             text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+            font-size: 13px;
             display: inline-block;
-        }
-
-        .download-btn:hover {
-            background-color: #00b248;
-        }
-
-        @media (max-width: 768px) {
-
-            table,
-            thead,
-            tbody,
-            th,
-            td,
-            tr {
-                display: block;
-            }
-
-            th {
-                display: none;
-            }
-
-            td {
-                margin-bottom: 10px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                display: block;
-                color: #aaa;
-                margin-bottom: 4px;
-            }
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
+        <img class="logo" src="https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/whoamus-logo.png"
+            alt="WHOAMUS Logo">
         <h1>Başvuru Listesi</h1>
         <table id="applications-table">
             <thead>
@@ -126,7 +103,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Dinamik içerik buraya eklenecek -->
+                <!-- Dinamik içerik buraya gelecek -->
             </tbody>
         </table>
     </div>
@@ -142,33 +119,32 @@
         fetch(`${API_URL}/applications`)
             .then(res => res.json())
             .then(data => {
-                if (!Array.isArray(data)) throw new Error("Beklenmeyen veri");
+                if (!Array.isArray(data)) {
+                    throw new Error("Veri yapısı beklenildiği gibi değil");
+                }
 
                 const tbody = document.querySelector("#applications-table tbody");
-
                 data.forEach(app => {
                     const row = document.createElement("tr");
-
                     row.innerHTML = `
-            <td data-label="Ad Soyad">${app.fullname}</td>
-            <td data-label="Öğrenci No">${app.student_id}</td>
-            <td data-label="Sınıf">${app.grade}</td>
-            <td data-label="Bölüm">${app.department}</td>
-            <td data-label="Telefon">${app.phone}</td>
-            <td data-label="Tarih">${new Date(app.submitted_at).toLocaleString('tr-TR')}</td>
-            <td data-label="CV">
-              ${app.cv_filename ? `<a class="download-btn" href="${app.cv_filename}" target="_blank">İndir</a>` : 'Yok'}
+            <td>${app.fullname}</td>
+            <td>${app.student_id}</td>
+            <td>${app.grade}</td>
+            <td>${app.department}</td>
+            <td>${app.phone}</td>
+            <td>${new Date(app.submitted_at).toLocaleString('tr-TR')}</td>
+            <td>
+              ${app.cv_filename ? `<a class="download-btn" href="${app.cv_filename}" download>İndir</a>` : 'Yok'}
             </td>
           `;
                     tbody.appendChild(row);
                 });
             })
             .catch(err => {
-                alert("Veriler alınamadı.");
+                alert("Veriler alınamadı veya beklenen formatta değil.");
                 console.error(err);
             });
     </script>
-
 </body>
 
 </html>

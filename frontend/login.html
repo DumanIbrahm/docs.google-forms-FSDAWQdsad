@@ -2,15 +2,15 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bilgi Güvenliği Giriş Paneli</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet" />
     <style>
         * {
             box-sizing: border-box;
-            padding: 0;
             margin: 0;
+            padding: 0;
         }
 
         body {
@@ -37,8 +37,10 @@
         }
 
         .login-box img {
-            width: 60px;
-            margin-bottom: 20px;
+            width: 70px;
+            height: auto;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
         }
 
         .login-box h2 {
@@ -91,35 +93,40 @@
 
 <body>
     <div class="login-box">
-        <img src="https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/whoamus-logo.png" alt="WHOAMUS Logo" />
-
+        <img src="https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/whoamus-logo.png" alt="WHOAMUS Logo"
+            crossorigin="anonymous" />
         <h2>Bilgi Güvenliği Giriş Paneli</h2>
         <form id="login-form">
-            <input type="email" id="email" placeholder="Eposta" required>
-            <input type="password" id="password" placeholder="Şifre" required>
+            <input type="email" id="email" placeholder="Eposta" required />
+            <input type="password" id="password" placeholder="Şifre" required />
             <button type="submit">Giriş Yap</button>
         </form>
         <div class="note">Sadece yetkili personel giriş yapabilir.</div>
     </div>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', async function (e) {
+        document.getElementById("login-form").addEventListener("submit", async function (e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
+            try {
+                const response = await fetch("https://docsgoogle-forms-fsdawqdsad-production.up.railway.app/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
 
-            const result = await response.json();
-            if (response.ok) {
-                localStorage.setItem("token", result.token);
-                window.location.href = "/applications.html";
-            } else {
-                alert("Hatalı giriş bilgileri");
+                const result = await response.json();
+                if (response.ok) {
+                    localStorage.setItem("token", result.token);
+                    window.location.href = "/applications.html";
+                } else {
+                    alert("Hatalı giriş bilgileri");
+                }
+            } catch (error) {
+                alert("Sunucuya bağlanılamadı.");
+                console.error(error);
             }
         });
     </script>
