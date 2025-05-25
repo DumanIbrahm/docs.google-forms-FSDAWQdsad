@@ -12,6 +12,9 @@ app.use(express.static('public'));
 
 app.post('/submit', upload.single('cv'), async (req, res) => {
     try {
+        console.log("📥 Gelen veri:", JSON.stringify(req.body, null, 2));
+        console.log("📎 Yüklenen dosya:", JSON.stringify(req.file, null, 2));
+
         const { fullname, studentId, grade, department, phone } = req.body;
         const fileUrl = req.file.path;
         const createdAt = new Date();
