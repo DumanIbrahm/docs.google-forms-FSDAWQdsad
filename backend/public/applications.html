@@ -89,8 +89,11 @@
                 <td>${app.grade}</td>
                 <td>${app.department}</td>
                 <td>${app.phone}</td>
-                <td>${new Date(app.submitted_at).toLocaleString()}</td>
-                <td><a class="download-btn" href="${app.cv_filename}" download>İndir</a></td>
+                <td>${new Date(app.submission_at).toLocaleString()}</td>
+                <td>
+  ${app.cv_filename ? `<a class="download-btn" href="${app.cv_filename}" download>İndir</a>` : 'Yok'}
+</td>
+
             `;
                     tbody.appendChild(row);
                 });
