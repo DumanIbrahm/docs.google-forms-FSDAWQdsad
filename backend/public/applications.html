@@ -90,7 +90,7 @@
                 <td>${app.department}</td>
                 <td>${app.phone}</td>
                 <td>${new Date(app.submitted_at).toLocaleString()}</td>
-                <td><a class="download-btn" href="${API_URL}/uploads/${app.cv_filename}" download>İndir</a></td>
+                <td><a class="download-btn" href="${app.cv_filename}" download>İndir</a></td>
             `;
                     tbody.appendChild(row);
                 });
