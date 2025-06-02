@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const pool = require('./db');
-const { storage } = require('./cloudinary'); // ✅ Cloudinary Storage
+const { storage } = require('./cloudinary');
 const multer = require('multer');
 const upload = multer({ storage });
 
@@ -12,8 +12,8 @@ app.use(express.static('public'));
 
 app.post('/submit', upload.single('cv'), async (req, res) => {
     try {
-        console.log("📥 Gelen veri:", JSON.stringify(req.body, null, 2));
-        console.log("📎 Yüklenen dosya:", JSON.stringify(req.file, null, 2));
+        console.log("Gelen veri:", JSON.stringify(req.body, null, 2));
+        console.log("Yüklenen dosya:", JSON.stringify(req.file, null, 2));
 
         const { fullname, studentId, grade, department, phone } = req.body;
         const fileUrl = req.file.path;
@@ -43,7 +43,7 @@ app.get('/applications', async (req, res) => {
     }
 });
 const jwt = require('jsonwebtoken');
-app.use(express.json()); // ✅ JSON body'leri okuyabilmek için
+app.use(express.json());
 
 const ADMIN_EMAIL = "admin@phishing.com";
 const ADMIN_PASSWORD = "Passw0rd!";
